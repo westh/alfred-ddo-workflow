@@ -8,12 +8,12 @@ def main(wf):
   params = dict(text=query, size=20)
   headers = dict(Accept='application/json')
 
-  r = web.get(url, params, headers)
-  r.raise_for_status()
+  response = web.get(url, params, headers)
+  response.raise_for_status()
   
-  result = r.json()
+  suggestions = response.json()
   
-  for suggestion in result:
+  for suggestion in suggestions:
     wf.add_item(
       title=suggestion,
       subtitle='https://ordnet.dk/ddo/ordbog?query=' + suggestion,
