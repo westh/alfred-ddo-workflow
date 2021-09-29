@@ -5,13 +5,23 @@ def main(wf):
   query = sys.argv[1]
 
   url = 'https://ordnet.dk/ws/ddo/livesearch'
-  params = dict(text=query, size=20)
-  headers = dict(Accept='application/json')
+  params = {
+    'text': query,
+    'size': 20
+  }
+  headers = {
+    'Accept': 'application/json'
+  }
 
   response = web.get(url, params, headers)
   response.raise_for_status()
   
   suggestions = response.json()
+
+  is_at_least_one_suggestion_found = len(suggestions) > 0
+  if (not is_at_least_one_suggestion_found):
+    wf.add_item(title='No suggestion found for "' + query + '"')
+    wf.send_feedback()
   
   for suggestion in suggestions:
     wf.add_item(
