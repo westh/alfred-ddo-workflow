@@ -2,7 +2,7 @@ import sys
 from workflow import Workflow, web
 
 def main(wf):
-  query = sys.argv[1]
+  query = wf.args[0].encode('utf-8')
 
   url = 'https://ordnet.dk/ws/ddo/livesearch'
   params = {
